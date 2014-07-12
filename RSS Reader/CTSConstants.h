@@ -15,3 +15,7 @@
 #define FEED_CELL_ELEMENTS_TOP_PADDING 9
 #define FEED_CELL_ELEMENTS_MIDDLE_PADDING 0
 #define FEED_CELL_ELEMENTS_BOTTOM_PADDING 20
+
+#define MAX_CELL_HEIGHT 1000000
+
+#define RSS_FEED_URL @"https://www.dropbox.com/s/g41ldl6t0afw9dv/facts.json?dl=1"

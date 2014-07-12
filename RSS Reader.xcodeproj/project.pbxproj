@@ -49,6 +49,7 @@
 		F3F399111970F56900C2D555 /* CTSLazyImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F3990F1970F56900C2D555 /* CTSLazyImageDownloader.m */; };
 		F3F399141971376900C2D555 /* CTSFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F399131971376900C2D555 /* CTSFeed.m */; };
 		F3F399151971376900C2D555 /* CTSFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F399131971376900C2D555 /* CTSFeed.m */; };
+		F3F399201971A5BF00C2D555 /* filename.txt in Resources */ = {isa = PBXBuildFile; fileRef = F3F3991F1971A5BF00C2D555 /* filename.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +111,7 @@
 		F3F399121971376900C2D555 /* CTSFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSFeed.h; sourceTree = "<group>"; };
 		F3F399131971376900C2D555 /* CTSFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSFeed.m; sourceTree = "<group>"; };
 		F3F3991B197197A700C2D555 /* CTSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSConstants.h; sourceTree = "<group>"; };
+		F3F3991F1971A5BF00C2D555 /* filename.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = filename.txt; path = Resources/filename.txt; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -265,6 +267,7 @@
 		F3F398BC1970489F00C2D555 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F3F3991F1971A5BF00C2D555 /* filename.txt */,
 				F3F3986419703E8700C2D555 /* Images.xcassets */,
 				F3F398BD19704ACF00C2D555 /* json_data.txt */,
 			);
@@ -388,6 +391,7 @@
 			files = (
 				F3F3986519703E8700C2D555 /* Images.xcassets in Resources */,
 				F3F3985719703E8700C2D555 /* InfoPlist.strings in Resources */,
+				F3F399201971A5BF00C2D555 /* filename.txt in Resources */,
 				F3F398BE19704ACF00C2D555 /* json_data.txt in Resources */,
 				F3F3986019703E8700C2D555 /* Main.storyboard in Resources */,
 			);
@@ -646,6 +650,7 @@
 				F3F3987D19703E8800C2D555 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F3F3987E19703E8800C2D555 /* Build configuration list for PBXNativeTarget "RSS ReaderTests" */ = {
 			isa = XCConfigurationList;
@@ -654,6 +659,7 @@
 				F3F3988019703E8800C2D555 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

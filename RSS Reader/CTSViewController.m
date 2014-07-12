@@ -145,24 +145,35 @@
 // Loads the JSON data from the webservice and creates "Feed" model objects
 
 - (void)getObjectFromJSONData {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
         // Initialize variables
         self.feeds = [NSMutableArray array];
         self.loadingImageURLPaths = [NSMutableArray array];
         
-        // As webservice is not returning the actual JSON feed, saved the JSON structure in local file and loading it
-        NSString *rssURLString = @"https://www.dropbox.com/s/g41ldl6t0afw9dv/facts.json";
+//        // Loading JSON from local file(for testing only)
+//        // Local JSON feed URL
+//        NSString *rssLocalPath = [[NSBundle mainBundle] pathForResource:@"json_data" ofType:@"txt"];
+//        
+//        NSError *jsonerror;
+//        NSData *jsonData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:rssLocalPath]];
+//        NSString *jsonString = [[NSString alloc] initWithData: jsonData encoding: NSStringEncodingConversionAllowLossy];
+//
+//        NSLog(@"jsonString %@", jsonString);
+
         
-        // Local JSON feed URL
-        NSString *rssLocalPath = [[NSBundle mainBundle] pathForResource:@"json_data" ofType:@"txt"];
+        // Download JSON feed from web
+        NSData *jsonData = [NSData dataWithContentsOfURL:[NSURL URLWithString:RSS_FEED_URL]];
         
+        // The JSON data that is being downloaded is not in proper format, some special characters are present that is preventing the JSON parsing.
+        // So to avoid that, first converting the JSON data into string by using Lossy encoding and then converting that string back to NSData using UTF8 encoding.
+        NSString *jsonString = [[NSString alloc] initWithData: jsonData encoding: NSStringEncodingConversionAllowLossy];
+        NSData *restoredJSONData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+
         NSError *error = nil;
-        
-        // Uncomment, below line to download JSON feed from web(only if its in proper JSON format)
-        // NSData *jsonData = [NSData dataWithContentsOfURL:[NSURL URLWithString:rssURLString]];
-        NSData *jsonData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:rssLocalPath]];
-        
-        NSDictionary *dictionary = [[CJSONDeserializer deserializer] deserializeAsDictionary:jsonData error:&error];
+
+        NSDictionary *dictionary = [[CJSONDeserializer deserializer] deserializeAsDictionary:restoredJSONData error:&error];
         
         dispatch_async(dispatch_get_main_queue(), ^(void){
             
@@ -186,7 +197,7 @@
 
     // Calculate Title label size
     CGSize calculatedTitleLabelSize = [feed.title sizeWithFont:[UIFont boldSystemFontOfSize:FEED_CELL_TITLE_LABEL_FONT_SIZE]
-                                   constrainedToSize:CGSizeMake(FEED_CELL_TITLE_LABEL_MAX_WIDTH, 10000)
+                                   constrainedToSize:CGSizeMake(FEED_CELL_TITLE_LABEL_MAX_WIDTH, MAX_CELL_HEIGHT)
                                        lineBreakMode:NSLineBreakByWordWrapping];
     
     // Update title label frame
@@ -197,7 +208,7 @@
 
     // Calculate Description label size
     CGSize calculatedDescriptionLabelSize = [feed.fDescription sizeWithFont:[UIFont systemFontOfSize:FEED_CELL_DESCRIPTION_LABEL_FONT_SIZE]
-                                                constrainedToSize:CGSizeMake(FEED_CELL_DESCRIPTION_LABEL_MAX_WIDTH, 10000)
+                                                constrainedToSize:CGSizeMake(FEED_CELL_DESCRIPTION_LABEL_MAX_WIDTH, MAX_CELL_HEIGHT)
                                                     lineBreakMode:NSLineBreakByWordWrapping];
     
     // Save new updated Y Coordinate for second level elements(Description & Image View)
@@ -217,11 +228,11 @@
     CTSFeed *feed = [self.feeds objectAtIndex:indexPath.row];
     
     CGSize titleLabelSize = [feed.title sizeWithFont:[UIFont boldSystemFontOfSize:FEED_CELL_TITLE_LABEL_FONT_SIZE]
-                                   constrainedToSize:CGSizeMake(FEED_CELL_TITLE_LABEL_MAX_WIDTH, 10000)
+                                   constrainedToSize:CGSizeMake(FEED_CELL_TITLE_LABEL_MAX_WIDTH, MAX_CELL_HEIGHT)
                                        lineBreakMode:NSLineBreakByWordWrapping];
     
     CGSize descriptionLabelSize = [feed.fDescription sizeWithFont:[UIFont systemFontOfSize:FEED_CELL_DESCRIPTION_LABEL_FONT_SIZE]
-                                                constrainedToSize:CGSizeMake(FEED_CELL_DESCRIPTION_LABEL_MAX_WIDTH, 10000)
+                                                constrainedToSize:CGSizeMake(FEED_CELL_DESCRIPTION_LABEL_MAX_WIDTH, MAX_CELL_HEIGHT)
                                                     lineBreakMode:NSLineBreakByWordWrapping];
     
     CGFloat calculatedCellHeight = FEED_CELL_ELEMENTS_TOP_PADDING + titleLabelSize.height + FEED_CELL_ELEMENTS_TOP_PADDING + descriptionLabelSize.height + FEED_CELL_ELEMENTS_TOP_PADDING;
@@ -268,6 +279,7 @@
     self.navigationItem.title = [feedDictionary valueForKey:@"title"];
     
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
 
